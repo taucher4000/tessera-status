@@ -1,9 +1,9 @@
 # One Home Assistant entity on a tile, as a state: a window, a door, a light, motion, a lock, a leak. Its icon and
 # colour follow the state, both chosen on the tile. Every field is explained in docs/MANIFEST.md of tessera-plugins.
 id: status_tile
-version: 1.2.2
-# 0.9: Tone::GOOD, ui::set_fill and one-line labels.
-api: "0.9"
+version: 1.3.0
+# 0.9: Tone::GOOD, ui::set_fill and one-line labels; 0.26: the card's own colour (ui::set_card_color).
+api: "0.26"
 icon: toggle-switch
 maintainer: hflocki
 license: MIT
@@ -120,6 +120,7 @@ tiles:
       - { id: on_text, kind: text, default: "", label: on_text, hint: on_text_hint }
       - { id: off_text, kind: text, default: "", label: off_text, hint: off_text_hint }
       - { id: tint, kind: toggle, default: true, label: tint, hint: tint_hint }
+      - { id: tint_full, kind: toggle, default: false, label: tint_full, hint: tint_full_hint }
       - { id: text_size, kind: choice, default: normal, label: text_size, hint: text_size_hint, choices: [
             { value: normal, label: size_normal }, { value: large, label: size_large },
             { value: xlarge, label: size_xlarge } ] }

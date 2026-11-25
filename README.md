@@ -19,6 +19,9 @@ Everything is set on the tile itself, in the layout's inspector, without a build
 - **Word when on** and **Word when off**: your own, such as "All closed"; empty takes the kind's. For a value or a
   text, **Word when on** is the name above it, such as "Diesel"; the value stays as it is.
 - **Tint the tile**: the whole tile takes the colour lightly while the entity is on.
+- **Colour the whole tile**: with **Tint the tile** on, the whole card, edge to edge, takes one of the screen's card
+  colours while the entity is on, instead of the light tint. The icon and the words then take the ink, so they read on
+  it. The accent has no card colour of its own and takes blue.
 - **Text size**: Normal, Large or Extra large, for a large screen or one read from across the room. A long name or
   state still steps down a size to fit.
 - **Show the name** and **Show the state**: both off, and the tile shows only its icon.

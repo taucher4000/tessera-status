@@ -124,6 +124,21 @@ static void paint(lv_obj_t *obj, Color c, bool fill) {
   else set_readable(obj, tone, role);
 }
 
+// A colour as one of the screen's card colours, for a tile coloured edge to edge (0.26). The accent has no card colour
+// of its own: it takes blue. Grey and auto give the card back to what the person chose for it.
+static tessera::CardColor card_of(Color c) {
+  switch (c) {
+    case Color::RED: return tessera::CardColor::RED;
+    case Color::ORANGE: return tessera::CardColor::ORANGE;
+    case Color::YELLOW: return tessera::CardColor::YELLOW;
+    case Color::GREEN: return tessera::CardColor::GREEN;
+    case Color::BLUE: return tessera::CardColor::BLUE;
+    case Color::PURPLE: return tessera::CardColor::PURPLE;
+    case Color::ACCENT: return tessera::CardColor::BLUE;
+    default: return tessera::CardColor::NONE;
+  }
+}
+
 // The states that count as "on": open, on, unlocked, home, wet, running and the like. Everything else is off, or a
 // value (a sensor's number) when it is not a state word at all.
 static bool is_on(const std::string &s) {
@@ -273,6 +288,7 @@ class StatusTile : public tessera::Tile {
     snprintf(on_text_, sizeof on_text_, "%s", c.options["on_text"] | "");
     snprintf(off_text_, sizeof off_text_, "%s", c.options["off_text"] | "");
     tint_on_ = c.options["tint"] | true;
+    tint_full_ = c.options["tint_full"] | false;
     show_name_ = c.options["show_name"] | true;
     show_state_ = c.options["show_state"] | true;
     icon_choice_ = symbol_by_name(c.options["icon"] | "");
@@ -399,6 +415,7 @@ class StatusTile : public tessera::Tile {
 
     if (!known) {
       // Nothing to show yet: the kind's off icon, grey, and why.
+      if (tint_full_) ui::set_card_color(tessera::CardColor::NONE);
       set_bg_opa(tint_, LV_OPA_TRANSP);
       ui::set_fill(circle_, Tone::NORMAL, theme::TRACK);
       set_bg_opa(circle_, LV_OPA_60);
@@ -421,9 +438,18 @@ class StatusTile : public tessera::Tile {
     const bool colored = color != Color::GREY;
     // A value counts as on for the tint: it is there.
     const bool lit = word ? on : true;
+    // The whole card in the state's colour while it is on, when the tile says so; the parts on it then take the ink,
+    // which reads on every card colour, instead of the state's colour, which would vanish on its own card.
+    const bool full = tint_on_ && tint_full_ && lit && colored;
+    if (tint_full_) ui::set_card_color(full ? card_of(color) : tessera::CardColor::NONE);
 
     // The circle lightly in the state's colour and the icon fully; grey, a plain circle.
-    if (colored) {
+    if (full) {
+      ui::set_fill(circle_, Tone::NORMAL, theme::INK);
+      set_bg_opa(circle_, LV_OPA_10);
+      ui::set_color(icon_, theme::INK);
+      if (show_name_) ui::set_color(name_, theme::SLATE);
+    } else if (colored) {
       paint(circle_, color, true);
       set_bg_opa(circle_, LV_OPA_20);
       paint(icon_, color, false);
@@ -434,8 +460,8 @@ class StatusTile : public tessera::Tile {
     }
     ui::set_text(icon_, ui::icon(icon_for(k, on)));
 
-    // The whole tile tinted while it is on, when the tile says so.
-    if (tint_on_ && lit && colored) {
+    // The whole tile tinted lightly while it is on, when the tile says so.
+    if (tint_on_ && lit && colored && !full) {
       paint(tint_, color, true);
       set_bg_opa(tint_, LV_OPA_10);
     } else {
@@ -461,7 +487,8 @@ class StatusTile : public tessera::Tile {
     // A long word ("Geschlossen") steps down a size on a narrow tile rather than being cut.
     ui::set_font(state_, fitting(text.c_str(), text_room(), state_font_, Font::BODY_LARGE));
     ui::set_text(state_, text);
-    if (colored) paint(state_, color, false);
+    if (full) ui::set_color(state_, theme::INK);
+    else if (colored) paint(state_, color, false);
     else ui::set_color(state_, word ? theme::INK_SOFT : theme::INK);
   }
 
@@ -479,7 +506,7 @@ class StatusTile : public tessera::Tile {
 
   const tessera::Plugin *plugin_;
   int width_ = 0, height_ = 0, dia_ = 0;
-  bool wide_ = false, tint_on_ = true, show_name_ = true, show_state_ = true, tap_ = false, have_state_ = false;
+  bool wide_ = false, tint_on_ = true, tint_full_ = false, show_name_ = true, show_state_ = true, tap_ = false, have_state_ = false;
   bool wrong_ = false;
   uint32_t icon_choice_ = 0, entity_icon_ = 0;
   Color on_color_ = Color::AUTO, off_color_ = Color::AUTO;

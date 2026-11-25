@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.0
+- New option "Colour the whole tile": with "Tint the tile" on, the whole card takes the state's colour as one of the
+  screen's card colours (red, orange, yellow, green, blue, purple; the accent takes blue), edge to edge, while the
+  entity is on. The light tint before left the card's edge uncoloured. Plugin API 0.26.
+
 ## 1.2.2
 - For a value or text, "Word when on" is now the name above it, such as "Diesel", and the value stays as it is. The
   `{state}` template of 1.2.0 is gone.
