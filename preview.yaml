@@ -17,8 +17,6 @@ tiles:
   - { tile: status, name: Living room, entity: sensor.living_room_temperature, sizes: [1x1],
       options: {} }
   - { tile: status, name: Kitchen window, entity: binary_sensor.kitchen_window, sizes: [2x1] }
-  - { tile: status, name: Kitchen window, entity: binary_sensor.kitchen_window, sizes: [1x1, 2x1],
-      options: { tint_full: true } }
   - { tile: status, name: Basement, entity: binary_sensor.basement_leak, sizes: [1x1] }
 
 states:

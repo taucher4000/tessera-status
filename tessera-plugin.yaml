@@ -25,7 +25,7 @@ tiles:
     name: tile_name
     icon: toggle-switch
     sizes: { min: 1x1, max: 4x2 }
-    # A tint, a circle, an icon and two labels.
+    # A circle, an icon and two labels.
     memory: 600
     example: tile_example
     # The entity is chosen in the tile's inspector: no build needed to change it.
@@ -122,7 +122,6 @@ tiles:
       - { id: on_text, kind: text, default: "", label: on_text, hint: on_text_hint }
       - { id: off_text, kind: text, default: "", label: off_text, hint: off_text_hint }
       - { id: tint, kind: toggle, default: true, label: tint, hint: tint_hint }
-      - { id: tint_full, kind: toggle, default: false, label: tint_full, hint: tint_full_hint }
       - { id: text_size, kind: choice, default: normal, label: text_size, hint: text_size_hint, choices: [
             { value: normal, label: size_normal }, { value: large, label: size_large },
             { value: xlarge, label: size_xlarge } ] }
