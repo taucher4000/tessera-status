@@ -75,6 +75,8 @@
     "show_name_hint": "Der Name der Kachel oder der Entität über dem Zustand.",
     "tap": "Per Tipp schalten",
     "tap_hint": "Ein Tipp schaltet Licht, Schalter oder Rollladen. Der Screen muss Aktionen ausführen dürfen.",
+    "tap_entity": "Entität für den Tipp",
+    "tap_entity_hint": "Optional. Mit \"Per Tipp schalten\" schaltet ein Tipp diese Entität statt der eigenen: Licht, Schalter, Rollladen, Ventilator oder Helfer umschalten, ein Skript starten, eine Szene aktivieren oder einen Button drücken. Leer: die Entität der Kachel.",
     "kind_temperature": "Temperatur",
     "kind_humidity": "Luftfeuchte",
     "text_size": "Textgröße",

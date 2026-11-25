@@ -2,7 +2,8 @@
 # colour follow the state, both chosen on the tile. Every field is explained in docs/MANIFEST.md of tessera-plugins.
 id: status_tile
 version: 1.3.0
-# 0.9: Tone::GOOD, ui::set_fill and one-line labels; 0.26: the card's own colour (ui::set_card_color).
+# 0.9: Tone::GOOD, ui::set_fill and one-line labels; 0.15: an option of kind entity (the tap's own entity); 0.26: the
+# card's own colour (ui::set_card_color).
 api: "0.26"
 icon: toggle-switch
 maintainer: hflocki
@@ -15,8 +16,9 @@ boards: any
 flash_kb: 14
 
 permissions:
-  # A tap may switch a light, a switch or a cover, when the tile's "Tap" says so.
-  home_assistant_actions: [homeassistant.toggle]
+  # A tap may switch a light, a switch, a cover, a fan or an input boolean, when the tile's "Tap" says so.
+  # Or, with "Entity for the tap", runs a script, turns on a scene or presses a button.
+  home_assistant_actions: [homeassistant.toggle, script.turn_on, scene.turn_on, button.press]
 
 tiles:
   - id: status
@@ -127,3 +129,5 @@ tiles:
       - { id: show_name, kind: toggle, default: true, label: show_name, hint: show_name_hint }
       - { id: show_state, kind: toggle, default: true, label: show_state, hint: show_state_hint }
       - { id: tap, kind: toggle, default: false, label: tap, hint: tap_hint }
+      - { id: tap_entity, kind: entity, domains: [light, switch, cover, fan, input_boolean, script, scene, button],
+          label: tap_entity, hint: tap_entity_hint }

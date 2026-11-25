@@ -26,6 +26,9 @@ Everything is set on the tile itself, in the layout's inspector, without a build
   state still steps down a size to fit.
 - **Show the name** and **Show the state**: both off, and the tile shows only its icon.
 - **Switch on a tap** for a light, a switch or a cover.
+- **Entity for the tap** (optional): with **Switch on a tap**, a tap acts on this entity instead of the tile's own.
+  The tile shows a window or a door sensor, and a tap switches the light, runs a script, turns on a scene or presses a
+  button. A light, switch, cover, fan or input boolean is toggled.
 
 A sensor with a number shows it with its unit, in the tile's **Colour when on** (grey on Auto).
 
