@@ -73,6 +73,8 @@
     "show_name_hint": "The tile's or the entity's name above the state.",
     "tap": "Switch on a tap",
     "tap_hint": "A tap switches a light, a switch or a cover. Needs the screen to be allowed to perform actions.",
+    "tap_entity": "Entity for the tap",
+    "tap_entity_hint": "Optional. With \"Switch on a tap\", a tap acts on this entity instead of the tile's own: toggles a light, switch, cover, fan or input boolean, runs a script, turns on a scene or presses a button. Empty: the tile's entity.",
     "kind_temperature": "Temperature",
     "kind_humidity": "Humidity",
     "text_size": "Text size",

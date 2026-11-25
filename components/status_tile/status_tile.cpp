@@ -283,6 +283,7 @@ class StatusTile : public tessera::Tile {
       default: name_font_ = Font::BODY; state_font_ = Font::TITLE; break;
     }
     tap_ = c.options["tap"] | false;
+    snprintf(tap_entity_, sizeof tap_entity_, "%s", c.options["tap_entity"] | "");
 
     // The tint covers the whole tile, its padding too, with the tile's own corners. Floating: it never scrolls it.
     const int pl = lv_obj_get_style_pad_left(c.parent, LV_PART_MAIN), pt = lv_obj_get_style_pad_top(c.parent, LV_PART_MAIN);
@@ -372,8 +373,17 @@ class StatusTile : public tessera::Tile {
 
   void on_theme() override { paint_now(); }
 
+  // A tap switches the tile's own entity, or the one chosen for the tap: a script runs, a scene turns on, a button is
+  // pressed, anything else is toggled.
   void on_tap() override {
-    if (tap_ && entity_[0]) tessera::action("homeassistant.toggle", entity_);
+    if (!tap_) return;
+    const char *target = tap_entity_[0] ? tap_entity_ : entity_;
+    if (!target[0]) return;
+    const char *service = "homeassistant.toggle";
+    if (strncmp(target, "script.", 7) == 0) service = "script.turn_on";
+    else if (strncmp(target, "scene.", 6) == 0) service = "scene.turn_on";
+    else if (strncmp(target, "button.", 7) == 0) service = "button.press";
+    tessera::action(service, target);
   }
 
  private:
@@ -485,7 +495,7 @@ class StatusTile : public tessera::Tile {
   Color on_color_ = Color::AUTO, off_color_ = Color::AUTO;
   Size size_ = Size::NORMAL;
   Font name_font_ = Font::BODY, state_font_ = Font::TITLE;
-  char entity_[96]{}, tile_name_[48]{}, kind_id_[16]{}, on_text_[48]{}, off_text_[48]{};
+  char entity_[96]{}, tap_entity_[96]{}, tile_name_[48]{}, kind_id_[16]{}, on_text_[48]{}, off_text_[48]{};
   char state_text_[64]{}, name_text_[64]{}, device_class_[32]{}, unit_[16]{};
   lv_obj_t *tint_{}, *circle_{}, *icon_{}, *name_{}, *state_{};
 };

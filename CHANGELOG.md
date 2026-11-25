@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.0
+- New option "Entity for the tap": with "Switch on a tap", a tap acts on another entity than the one the tile shows. A
+  light, switch, cover, fan or input boolean is toggled, a script runs, a scene turns on, a button is pressed. Empty,
+  the tap switches the tile's own entity as before. Plugin API 0.15.
+
 ## 1.2.2
 - For a value or text, "Word when on" is now the name above it, such as "Diesel", and the value stays as it is. The
   `{state}` template of 1.2.0 is gone.
